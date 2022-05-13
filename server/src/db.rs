@@ -2,7 +2,7 @@ use crate::webserver::Game;
 use std::collections::HashMap;
 
 pub struct Db {
-    games: HashMap<u32, Game>,
+    pub games: HashMap<u64, Game>,
 }
 
 impl Db {
