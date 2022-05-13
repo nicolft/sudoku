@@ -1,10 +1,9 @@
-use crate::game::GameCommand;
+use crate::game::GameCtl;
 
 use dashmap::DashMap;
-use tokio::sync::mpsc;
 
 pub struct Db {
-    pub games: DashMap<u64, mpsc::UnboundedSender<GameCommand>>,
+    pub games: DashMap<u64, GameCtl>,
 }
 
 impl Db {

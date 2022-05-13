@@ -1,10 +1,15 @@
-use crate::sudoku::{CellValue, Grid, Size};
+use crate::sudoku::{Grid, Size, Value};
 
 use tokio::sync::mpsc;
 
 pub enum GameCommand {
-    Place(Size, Size, CellValue),
+    Place(Size, Size, Value),
     Shutdown,
+}
+
+pub struct GameCtl {
+    pub game_tx: mpsc::UnboundedSender<GameCommand>,
+    pub size: Size,
 }
 
 pub struct Game {
@@ -13,9 +18,9 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(game_rx: mpsc::UnboundedReceiver<GameCommand>) -> Self {
+    pub fn new(game_rx: mpsc::UnboundedReceiver<GameCommand>, size: Size) -> Self {
         Game {
-            grid: Grid::new(9),
+            grid: Grid::new(size),
             game_rx,
         }
     }

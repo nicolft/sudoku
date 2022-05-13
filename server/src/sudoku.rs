@@ -2,42 +2,18 @@ use std::fmt::Write;
 
 // type Username = String;
 
-#[derive(Debug)]
-pub enum CellValue {
-    Empty,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-}
-
-impl std::fmt::Display for CellValue {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:>5}", format!("{:?}", self))
-    }
-}
-
-// enum CellKind {
-//     Standard(CellValue),
-//     Multi(HashMap<Username, CellValue>),
-// }
+pub type Size = usize;
+pub type Value = usize;
 
 #[derive(Debug)]
 struct Cell {
     // kind: CellKind
-    value: CellValue,
+    value: Value,
 }
 
 impl Cell {
     fn new() -> Self {
-        Self {
-            value: CellValue::Empty,
-        }
+        Self { value: 0 }
     }
 }
 
@@ -46,8 +22,6 @@ impl std::fmt::Display for Cell {
         write!(f, "{}", self.value)
     }
 }
-
-pub type Size = usize;
 
 #[derive(Debug)]
 pub struct Grid {
@@ -73,7 +47,7 @@ impl Grid {
         Self { dimension, grid }
     }
 
-    pub fn place(&mut self, row: Size, col: Size, value: CellValue) {
+    pub fn place(&mut self, row: Size, col: Size, value: Value) {
         if self.dimension < row || self.dimension < col {
             panic!("Row or column should be pre-validated.");
         }
@@ -104,9 +78,9 @@ fn _test_grid() {
     let mut grid = Grid::new(3);
     println!("{}", grid);
 
-    grid.place(0, 1, CellValue::One);
+    grid.place(0, 1, 1);
     println!("{}", grid);
 
-    grid.place(0, 1, CellValue::Empty);
+    grid.place(0, 1, 0);
     println!("{}", grid);
 }
