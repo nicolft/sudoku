@@ -1,5 +1,6 @@
-#[allow(dead_code)]
+#[allow(dead_code)] // TODO remove
 mod sudoku;
+#[allow(dead_code)] // TODO remove
 mod webserver;
 
 use rocket::routes;
