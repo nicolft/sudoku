@@ -1,14 +1,11 @@
 use crate::db::Db;
-use crate::sudoku::Grid;
+use crate::game::Game;
 
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 
 use rocket::{get, State};
-
-pub struct Game {
-    grid: Grid,
-}
+use tokio::sync::mpsc;
 
 #[get("/")]
 pub fn index() -> &'static str {
@@ -17,11 +14,15 @@ pub fn index() -> &'static str {
 
 #[get("/create")]
 pub fn create(db: &State<Mutex<Db>>) -> String {
-    let grid = Grid::new(9);
-    let game = Game { grid };
-    let id = next_game_id();
+    let (game_tx, game_rx) = mpsc::unbounded_channel();
+    let mut game = Game::new(game_rx);
 
-    db.lock().unwrap().games.insert(id, game);
+    let id = next_game_id();
+    db.lock().unwrap().games.insert(id, game_tx);
+
+    tokio::spawn(async move {
+        game.run().await;
+    });
 
     format!("{}", id)
 }

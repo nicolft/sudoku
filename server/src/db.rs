@@ -1,8 +1,11 @@
-use crate::webserver::Game;
+use crate::game::GameCommand;
+
 use std::collections::HashMap;
 
+use tokio::sync::mpsc;
+
 pub struct Db {
-    pub games: HashMap<u64, Game>,
+    pub games: HashMap<u64, mpsc::UnboundedSender<GameCommand>>,
 }
 
 impl Db {

@@ -1,6 +1,8 @@
 #[allow(dead_code)] // TODO remove
 mod db;
 #[allow(dead_code)] // TODO remove
+mod game;
+#[allow(dead_code)] // TODO remove
 mod sudoku;
 #[allow(dead_code)] // TODO remove
 mod webserver;

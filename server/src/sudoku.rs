@@ -47,14 +47,16 @@ impl std::fmt::Display for Cell {
     }
 }
 
+pub type Size = usize;
+
 #[derive(Debug)]
 pub struct Grid {
-    dimension: usize,
+    dimension: Size,
     grid: Vec<Vec<Cell>>,
 }
 
 impl Grid {
-    pub fn new(dimension: usize) -> Self {
+    pub fn new(dimension: Size) -> Self {
         // Create grid with Empty cells.
         let mut grid = Vec::new();
 
@@ -71,7 +73,7 @@ impl Grid {
         Self { dimension, grid }
     }
 
-    pub fn put(&mut self, row: usize, col: usize, value: CellValue) {
+    pub fn place(&mut self, row: Size, col: Size, value: CellValue) {
         if self.dimension < row || self.dimension < col {
             panic!("Row or column should be pre-validated.");
         }
@@ -102,9 +104,9 @@ fn _test_grid() {
     let mut grid = Grid::new(3);
     println!("{}", grid);
 
-    grid.put(0, 1, CellValue::One);
+    grid.place(0, 1, CellValue::One);
     println!("{}", grid);
 
-    grid.put(0, 1, CellValue::Empty);
+    grid.place(0, 1, CellValue::Empty);
     println!("{}", grid);
 }
