@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::fmt::Write;
 
 // type Username = String;
 
@@ -54,9 +54,7 @@ pub struct Grid {
 }
 
 impl Grid {
-    pub fn new(
-        dimension: usize,
-    ) -> Self {
+    pub fn new(dimension: usize) -> Self {
         // Create grid with Empty cells.
         let mut grid = Vec::new();
 
@@ -70,18 +68,10 @@ impl Grid {
             grid.push(row);
         }
 
-        Self {
-            dimension,
-            grid,
-        }
+        Self { dimension, grid }
     }
 
-    pub fn put(
-        &mut self,
-        row: usize,
-        col: usize,
-        value: CellValue,
-    ) {
+    pub fn put(&mut self, row: usize, col: usize, value: CellValue) {
         if self.dimension < row || self.dimension < col {
             panic!("Row or column should be pre-validated.");
         }
@@ -98,12 +88,23 @@ impl std::fmt::Display for Grid {
             s.push_str("| ");
 
             for col in 0..self.dimension {
-                s.push_str(&format!("{} ", self.grid[row][col]))
+                let _ = write!(s, "{} ", self.grid[row][col]);
             }
 
-            s.push_str("\n");
+            s.push('\n');
         }
 
         write!(f, "{}", s)
     }
+}
+
+fn _test_grid() {
+    let mut grid = Grid::new(3);
+    println!("{}", grid);
+
+    grid.put(0, 1, CellValue::One);
+    println!("{}", grid);
+
+    grid.put(0, 1, CellValue::Empty);
+    println!("{}", grid);
 }

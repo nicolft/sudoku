@@ -1,15 +1,15 @@
 #[allow(dead_code)]
 mod sudoku;
+mod webserver;
 
-use sudoku::{Grid, CellValue};
+use rocket::routes;
 
-fn main() {
-    let mut grid = Grid::new(3);
-    println!("{}", grid);
+#[rocket::main]
+async fn main() -> Result<(), rocket::Error> {
+    let _ = rocket::build()
+        .mount("/", routes![webserver::index])
+        .launch()
+        .await?;
 
-    grid.put(0,1,CellValue::One);
-    println!("{}", grid);
-
-    grid.put(0,1,CellValue::Empty);
-    println!("{}", grid);
+    Ok(())
 }
