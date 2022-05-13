@@ -1,16 +1,15 @@
 use crate::game::GameCommand;
 
-use std::collections::HashMap;
-
+use dashmap::DashMap;
 use tokio::sync::mpsc;
 
 pub struct Db {
-    pub games: HashMap<u64, mpsc::UnboundedSender<GameCommand>>,
+    pub games: DashMap<u64, mpsc::UnboundedSender<GameCommand>>,
 }
 
 impl Db {
     pub fn new() -> Self {
-        let games = HashMap::new();
+        let games = DashMap::new();
         Db { games }
     }
 }
