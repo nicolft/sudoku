@@ -12,11 +12,6 @@ enum WebServerError {
     Validation,
 }
 
-#[get("/")]
-pub fn index() -> &'static str {
-    "Sudoku! Wow!"
-}
-
 #[get("/create")]
 pub fn create(db: &State<Db>) -> String {
     let size = 9;
