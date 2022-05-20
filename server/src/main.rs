@@ -9,19 +9,15 @@ mod webserver;
 
 use crate::db::Db;
 
-use std::sync::Mutex;
-
 use rocket::fs::FileServer;
 use rocket::routes;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
-    let db = Mutex::new(Db::new());
-
     let _ = rocket::build()
+        .mount("/", routes![webserver::create, webserver::play])
         .mount("/", FileServer::from("frontend/public"))
-        .mount("/create", routes![webserver::create])
-        .manage(db)
+        .manage(Db::new())
         .launch()
         .await?;
 
